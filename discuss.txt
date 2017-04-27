@@ -1,0 +1,14 @@
+Discussion Stuff:
+	Should we have a floating title?
+
+Implementation List:
+	Tower
+		Head = damage
+		Body = rate of fire
+		Feet = range
+
+	Headline (Event.js):
+		Debuffs (bad policies or climate change disaster)
+		Buffs?  (good policies)
+		Give visual feedback on it
+
