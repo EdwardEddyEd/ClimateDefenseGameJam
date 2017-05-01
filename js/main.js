@@ -26,6 +26,7 @@
     // The stage is essentially a display list of all game objects
     // for Pixi to render; it's used in resize(), so it must exist
     stage = new PIXI.Container();
+    stageIndices = [0, 100, 200, 300, 400, 500, 600, 700, 800, 900];    // TODO: Add items to specific indices
      
     // Size the renderer to fill the screen
     resize();
@@ -49,7 +50,7 @@
     // gameManager.addGameState(new TitleState());
     gameManager.addGameState(new MainGameState());
 
-    displayAllSprites(textureManager.textures);
+    //displayAllSprites(textureManager.textures);
 
     // Add a keyListener to select buttons
     // document.addEventListener("keydown", onKeyDown);

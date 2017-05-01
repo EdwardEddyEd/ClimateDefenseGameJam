@@ -11,12 +11,12 @@ function Inventory(state, y, renderTarget){
 	for(let i = 0; i < this.maxSize; i++)
 		this.buttonPosY.push(y + this.spacingY * i);
 
-	this.addTowerToInventory(new WindTower(this.gameState, 10, 10, 250));
-	this.addTowerToInventory(new WindTower(this.gameState, 20, 5, 400));
-	this.addTowerToInventory(new HydroTower(this.gameState, 45, 3, 500));
-	this.addTowerToInventory(new WindTower(this.gameState, 10, 10, 250));
-	this.addTowerToInventory(new WindTower(this.gameState, 20, 5, 400));
-	this.addTowerToInventory(new HydroTower(this.gameState, 45, 3, 400));
+	this.addTowerToInventory(new WindTower(this.gameState, 2, 1, 192));
+	this.addTowerToInventory(new WindTower(this.gameState, 2, 2, 384));
+	this.addTowerToInventory(new HydroTower(this.gameState, 5, 1, 192));
+	this.addTowerToInventory(new HydroTower(this.gameState, 5, 2, 384));
+	this.addTowerToInventory(new WindTower(this.gameState, 10, 10, 384));
+	this.addTowerToInventory(new WindTower(this.gameState, 20, 5, 640));
 }
 
 Inventory.constructor = Inventory;
@@ -66,4 +66,18 @@ Inventory.prototype.recalibrateInventory = function(){
  			this.towerInventory[key].y = this.buttonPosY[i];
  			i++;
 	}
+}
+
+Inventory.prototype.activateButtons = function(){
+	for (let key in this.towerInventory) {
+ 		if (this.towerInventory.hasOwnProperty(key))
+ 			this.towerInventory[key].activate();
+	}
+}
+
+Inventory.prototype.deactivateButtons = function(){
+	for (let key in this.towerInventory) {
+ 		if (this.towerInventory.hasOwnProperty(key))
+ 			this.towerInventory[key].deactivate();
+	} 
 }

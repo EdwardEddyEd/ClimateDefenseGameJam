@@ -138,3 +138,11 @@ InventoryButton.prototype.deleteButton = function(){
 InventoryButton.prototype.tick = function(delta){
 
 }
+
+InventoryButton.prototype.activate = function(){
+	this.interactive = true;
+}
+
+InventoryButton.prototype.deactivate = function(){
+	this.interactive = false;
+}

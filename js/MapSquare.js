@@ -52,7 +52,6 @@ MapSquare.prototype.createInteraction = function(){
 	}
 
 	function onButtonUp(){
-		// TODO: Add tower onto the screen and map square, subtract amount from inventory, turn off interactivity of map, turn on interactivity of button
 		if(this.isOccupied || this.isWater)
 			this.gameState.selectionModeCancel();
 		else
