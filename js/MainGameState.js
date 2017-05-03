@@ -6,7 +6,6 @@ function MainGameState(){
 	this.buttonSelected = null;
 	this.towerToBeAdded = null;
 
-
 	// Variables specific to this GameState
 	this.towers =[];
 	this.enemies =[];
@@ -25,7 +24,7 @@ function MainGameState(){
 		this.enemies.push(new CO2Enemy(this, 10, 10, 10, 100, i, stage, this.path1));
 	}
 
-	this.towerUIMenu = new TowerUIMenu(this, 400, 400, 300, 500); 
+	this.towerUIMenu = new TowerUIMenu(this, 400, 400, 350, 600);
 }
 
 // Set MainGameState as the constructor 
@@ -155,5 +154,5 @@ MainGameState.prototype.deactivateTowerSelection = function(){
 }
 
 MainGameState.prototype.bringUpTowerMenu = function(){
-
+	this.towerUIMenu.openStore();
 }

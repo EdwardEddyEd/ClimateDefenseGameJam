@@ -44,6 +44,22 @@ function SideMenu(state, x, y, width, height){
     this.sideMenuContainer.addChild(this.inventoryText);
 
     this.inventory = new Inventory(this.gameState, -height / 2 + 150, this.sideMenuContainer);
+
+    // Store Button
+    this.openStoreText = new PIXI.Text("Open Store", {
+        font: "bold 45px Arial", // Set style, size and font
+        fill: '#ffffff', // Set fill color to white
+        align: 'right', // Center align the text
+        strokeThickness: 10, // Set stroke thickness to 20
+        lineJoin: 'round' // Set the lineJoin to round instead of 'miter'
+    });
+    this.openStoreText.gameState = state;
+    this.openStoreText.x = -width / 2 + 30;
+    this.openStoreText.y = height / 2 - 100;
+    this.openStoreText.buttonMode = true;
+    this.openStoreText.interactive = true;
+    this.openStoreText.on('pointerup', function(){this.gameState.bringUpTowerMenu();});
+    this.sideMenuContainer.addChild(this.openStoreText);
 }
 
 SideMenu.constructor = SideMenu;

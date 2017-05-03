@@ -11,7 +11,6 @@ function WindTower(state, headPower, bodyFireRate, feetRange, renderTarget = nul
 	this.x = 0;
 	this.y = 0;
 
-
 	this.scale = new PIXI.Point(2, 2);
 
 	this.headPower = headPower;

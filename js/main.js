@@ -45,6 +45,7 @@
     textureManager = new TextureManager();
     textureManager.loadTextureFromImage("overworldMap", "res/board.png");
     loadSpriteSheet1();
+    loadSprites1();
 
     gameManager = new GameManager();
     // gameManager.addGameState(new TitleState());
@@ -120,6 +121,21 @@
         frame = new PIXI.Texture(baseTexture, new PIXI.Rectangle(width * col, height * row, width, height));
         textureManager.loadTexture(textureNames[row * 6 + col], frame);
 
+    }
+
+    function loadSprites1(){
+        let basePath = "res/";
+        let texturePaths = ["Buy.png", "buy_highlight.png", "buy_screen_asset.png", "double_fusion.png", "single_fusion.png", 
+                            "grid_power_range_3.png", "turbine_range_6.png", "windmill_damage_2.png", "left_arrow.png",
+                            "left_arrow_highlight.png", "right_arrow.png", "right_arrow_highlight.png"];
+        let textureNames = ["buy", "buy_highlight", "buy_screen_asset", "double_fusion", "single_fusion", 
+                            "grid_power_range_3", "turbine_range_6", "windmill_damage_2", "left_arrow",
+                            "left_arrow_highlight", "right_arrow", "right_arrow_highlight"];
+
+        for(let i = 0; i < texturePaths.length; i++){
+            let texture = new PIXI.Texture.fromImage(basePath + texturePaths[i]);
+            textureManager.loadTexture(textureNames[i], texture);
+        }
     }
 
     function displayAllSprites(textures){
