@@ -269,6 +269,8 @@ TowerUIMenu.prototype.changeToBaseStats = function(towerType){
 
 	switch(towerType){
 		case this.towerTypesArray[0]:
+			this.towerTypeSelected = 0;
+			this.towerTypeText.text = towerType;
 			head = this.windPowerArray[0];
 			body = this.windFireRateArray[0];
 			feet = this.windRangeArray[0] * this.towerRangeMultiplier;
@@ -277,6 +279,8 @@ TowerUIMenu.prototype.changeToBaseStats = function(towerType){
 			this.currentRangeArray = this.windRangeArray;
 			break;
 		case this.towerTypesArray[1]:
+			this.towerTypeSelected = 1;
+			this.towerTypeText.text = towerType;
 			head = this.hydroPowerArray[0];
 			body = this.hydroFireRateArray[0];
 			feet = this.hydroRangeArray[0] * this.towerRangeMultiplier;
