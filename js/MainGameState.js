@@ -17,10 +17,10 @@ function MainGameState(){
 	this.path1Y = [0, 2, 2, 3, 3, 7,  7,  3, 3, 7, 7, 13, 13, 14];
 	this.path1 = new EnemyPath(this, this.map, this.path1X, this.path1Y);
 
-	this.iceAmount = 320;	// 160; 400; 700;
+	this.iceAmount = 600;	// 160; 400; 700;
 	this.sideUIMenu = new SideMenu(this, CANVAS_WIDTH - 200, CANVAS_HEIGHT / 2 + 4, 350, CANVAS_HEIGHT - 120);
 
-	for(let i = 0; i < 10000; i += 200){	// (3000, 300), (10000, 200), (50000, 100)
+	for(let i = 2000; i < 10000; i += 200){	// (3000, 300), (10000, 200), (50000, 100)
 		this.enemies.push(new CO2Enemy(this, 10, 10, 10, 100, i, stage, this.path1));
 	}
 
@@ -39,16 +39,13 @@ MainGameState.prototype.tick = function(delta){
 	for(let i = 0; i < this.enemies.length; i++)
 		this.enemies[i].tick(delta);
 
+	this.sideUIMenu.tick(delta);
 	if(this.towerUIMenu.towerMenuContainer.visible)
 		this.towerUIMenu.tick(delta);
 }
 
-// TODO:
-// For selection Mode, turn on tower interactivity when selectionMode is off. Else, turn off.
-// TODO:
-
 MainGameState.prototype.selectionModeOn = function(tower, button){
-	this.sideUIMenu.inventory.deactivateButtons();			// TODO: Doesn't work like it should and should be placed after map.activateSelection();
+	this.sideUIMenu.inventory.deactivateButtons();
 	this.buttonSelected = button;
 	this.towerToBeAdded = tower;
 
@@ -60,7 +57,7 @@ MainGameState.prototype.selectionModeOn = function(tower, button){
 MainGameState.prototype.selectionModeCancel = function(){
 	this.map.deactivateSelection();
 	this.activateTowerSelection();
-	this.sideUIMenu.inventory.activateButtons();			// TODO: Doesn't work like it should
+	this.sideUIMenu.inventory.activateButtons();
 
 	this.buttonSelected.interactive = true;
 	this.buttonSelected.texture = textureManager.getTexture("inventoryButton_Up");
@@ -72,19 +69,8 @@ MainGameState.prototype.selectionModeCancel = function(){
 MainGameState.prototype.selectionModeComplete = function(square){
 	this.map.deactivateSelection();
 	this.activateTowerSelection();
-	this.sideUIMenu.inventory.activateButtons();			// TODO: Doesn't work like it should
-
-	// CODE FOR BUYING TOWER - FIXME
-/*	let buttonTower = this.buttonSelected.tower;
-	let buttonSum = (buttonTower.headPower + buttonTower.bodyFireRate + (buttonTower.feetRange/64)) * 10;
-	if(buttonSum > this.iceAmount){
-		this.selectionModeCancel();
-		return;
-	}
-	this.takeAwayIce(buttonSum);*/
-	// CODE FOR BUYING TOWER - FIXME
+	this.sideUIMenu.inventory.activateButtons();
 	
-
 	let newTower = this.copyTower(this.towerToBeAdded);
 	newTower.setLocation(square.getCenter());
 
@@ -105,6 +91,22 @@ MainGameState.prototype.copyTower = function(tower){
 			return new WindTower(this, tower.headPower, tower.bodyFireRate, tower.feetRange, stage);
 		case "hydroTower":
 			return new HydroTower(this, tower.headPower, tower.bodyFireRate, tower.feetRange, stage);
+	}
+}
+
+MainGameState.prototype.purchaseTower = function(towerType, power, firerate, range, price){
+	if(price > this.iceAmount)
+		return;		// TODO: Give feedback saying that purchase could not be made
+	else
+		this.takeAwayIce(price);
+
+	switch(towerType){
+		case "windTower":
+			this.sideUIMenu.inventory.addTowerToInventory(new WindTower(this, power, firerate, range));
+			break;
+		case "hydroTower":
+			this.sideUIMenu.inventory.addTowerToInventory(new HydroTower(this, power, firerate, range));
+			break;
 	}
 }
 

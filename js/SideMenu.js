@@ -59,7 +59,7 @@ function SideMenu(state, x, y, width, height){
     this.openStoreText.buttonMode = true;
     this.openStoreText.interactive = true;
     this.openStoreText.on('pointerup', function(){this.gameState.bringUpTowerMenu();});
-    this.sideMenuContainer.addChild(this.openStoreText);
+    this.sideMenuContainer.addChild(this.openStoreText);    
 }
 
 SideMenu.constructor = SideMenu;
@@ -70,4 +70,14 @@ SideMenu.prototype.createContainerTexture = function(width, height){
 	graphics.lineStyle(5, 0x0066FF);		
 	graphics.drawRect(0, 0, width, height);
 	return graphics.generateCanvasTexture();
+}
+
+SideMenu.prototype.tick = function(delta){
+    this.inventory.tick(delta);
+    this.bringToFront();
+}
+
+SideMenu.prototype.bringToFront = function(){
+    stage.removeChild(this.sideMenuContainer);
+    stage.addChild(this.sideMenuContainer);
 }

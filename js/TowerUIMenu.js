@@ -238,9 +238,12 @@ TowerUIMenu.prototype.bringToFront = function(){
 }
 
 TowerUIMenu.prototype.buyPressed = function(){
-	console.log("BUY TOWER");
-
-	// TODO: Get the buying towers to work
+	let tower    = this.towerMenu.towerTypesArray[this.towerMenu.towerTypeSelected];
+	let power    = this.towerMenu.currentPowerArray[this.towerMenu.headIndexSelected];
+	let firerate = this.towerMenu.currentFireRateArray[this.towerMenu.bodyIndexSelected];
+	let range    = this.towerMenu.currentRangeArray[this.towerMenu.feetIndexSelected] * this.towerMenu.towerRangeMultiplier;
+	let price    = this.towerMenu.price;
+	this.gameState.purchaseTower(tower, power, firerate, range, price);
 }
 
 TowerUIMenu.prototype.leftTowerPressed = function(){
