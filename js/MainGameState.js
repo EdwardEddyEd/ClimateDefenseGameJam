@@ -179,6 +179,11 @@ MainGameState.prototype.deactivateTowerSelection = function(){
 
 MainGameState.prototype.startRound = function(){
 	this.roundInSession = true;
+	for(let i = 0; i < this.enemies.length; i++)
+		this.enemies[i].bringHealthTextToFront();
+	for(let i = 0; i < this.towers.length; i++)
+		this.towers[i].bringToFront();
+	
 	this.sideUIMenu.startRoundText.deactivate();
 }
 
@@ -221,6 +226,7 @@ MainGameState.prototype.parseRoundJson = function(enemyObj){
 						  		  j, 
 						  		  stage, 
 						  		  path));
+					break;
 				default:
 					console.log("ERROR: Round " + this.roundNumber + ": Enemy Index " + i);
 			};

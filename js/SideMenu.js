@@ -94,6 +94,7 @@ function SideMenu(state, x, y, width, height){
         align: 'right',
         stroke: '#000000',
         strokeThickness: 10,
+        lineJoin: 'round' // Set the lineJoin to round instead of 'miter'
     });
     this.roundText.gameState = state;
     this.roundText.anchor.x = 0.5;

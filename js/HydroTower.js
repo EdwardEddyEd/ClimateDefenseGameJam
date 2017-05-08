@@ -189,3 +189,8 @@ HydroTower.prototype.removeFromRenderTarget = function(){
 	this.renderTarget.removeChild(this.rangeCircle);
 	this.renderTarget.removeChild(this);
 }
+
+HydroTower.prototype.bringToFront = function(){
+	this.removeFromRenderTarget();
+	this.addToRenderTarget();
+}

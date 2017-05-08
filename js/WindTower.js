@@ -188,3 +188,8 @@ WindTower.prototype.removeFromRenderTarget = function(){
 	this.renderTarget.removeChild(this.rangeCircle);
 	this.renderTarget.removeChild(this);
 }
+
+WindTower.prototype.bringToFront = function(){
+	this.removeFromRenderTarget();
+	this.addToRenderTarget();
+}
