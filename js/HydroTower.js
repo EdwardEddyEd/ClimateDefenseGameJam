@@ -97,6 +97,10 @@ HydroTower.prototype.tick = function(delta){
 		this.filters[0].brightness(brightness);
 	}
 
+	// Do not proceed if round is not in session
+	if(!this.gameState.roundInSession)
+		return;
+
 	// Check for nearby enemies
 	this.getEnemy();
 	if(this.deltaDelayFire > 0)
@@ -142,7 +146,7 @@ HydroTower.prototype.getEnemy = function(){
 
 	for(let i = 0; i < this.gameState.enemies.length; i++){
 		let enemy = this.gameState.enemies[i];
-		if(this.distanceBetween(this, enemy) <= this.feetRange){
+		if(this.distanceBetween(this, enemy) <= this.feetRange && enemy.isMoving){
 			this.enemyTarget = enemy;
 			break;
 		}

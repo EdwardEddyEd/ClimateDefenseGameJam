@@ -8,6 +8,8 @@ function CO2Enemy(state, health, reward, damage, speed, delayRender, renderTarge
 	this.addToRenderTarget();
 
 	this.path = path;
+	this.visible = true;
+	this.alpha = 0.0;
 	
 	// Animation
 	this.isDone = false;		// Reached the end of its path
@@ -36,9 +38,11 @@ function CO2Enemy(state, health, reward, damage, speed, delayRender, renderTarge
 	this.speed       = speed;
 	this.delayRender = delayRender;
 	this.distanceDelta = 0;
+	this.isMoving = false;
 
 	if(this.delayRender == 0){
 		this.alpha = 1.0;
+		this.isMoving = true;
 	}
 }
 
@@ -56,6 +60,8 @@ CO2Enemy.prototype.tick = function(delta){
 		this.alpha = (this.delayRender < 250) ? ((250 - this.delayRender) / 250.0) : (0);
 	}
 	else if(!this.isHit){
+		this.isMoving = true;
+		this.alpha = 1.0;
 		this.scalingDelta += delta;
 		switch(this.moveFrames){
 			case 0:
@@ -107,6 +113,9 @@ CO2Enemy.prototype.enemyIsHit = function(projectile){
 }
 
 CO2Enemy.prototype.checkCollision = function(projectile){
+	if(this.health <= 0 || !this.isMoving)
+		return false;
+
 	if(projectile.x > this.leftTop.x && 
 	   projectile.x < this.rightTop.x && 
 	   projectile.y > this.leftTop.y &&

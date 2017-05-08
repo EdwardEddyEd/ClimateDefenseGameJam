@@ -1,10 +1,10 @@
-function TowerUIMenu(state, x, y, width, height){
+function TowerUIMenu(state, width, height){
 	this.gameState = state;
 
 	// PIXI Object Container
 	this.towerMenuContainer = new PIXI.Container();
-	this.towerMenuContainer.x = x;
-	this.towerMenuContainer.y = y;
+	this.towerMenuContainer.x = CANVAS_WIDTH / 2;
+	this.towerMenuContainer.y = CANVAS_HEIGHT / 2;
 	this.towerMenuContainer.width = width;
 	this.towerMenuContainer.height = height;
 	stage.addChild(this.towerMenuContainer);
@@ -20,7 +20,7 @@ function TowerUIMenu(state, x, y, width, height){
 	// PIXI Title Text of the Menu
     this.titleText = new PIXI.Text("Tower Menu", {
         font: "bold 40px Arial", // Set style, size and font
-        fill: '#ffffff', // Set fill color to white
+        fill: ['#00AAFF', '#AAEEFF', '#00AAFF'], // Set fill color to white
         align: 'right', // Center align the text
         strokeThickness: 10, // Set stroke thickness to 20
         lineJoin: 'round' // Set the lineJoin to round instead of 'miter'
@@ -154,7 +154,7 @@ function TowerUIMenu(state, x, y, width, height){
 	this.price = 60;
     this.priceText = new PIXI.Text("PRICE:\n" + this.price + " ICE", {
         font: "bold 40px Arial", // Set style, size and font
-        fill: '#ffffff', // Set fill color to white
+        fill: ['#00AAFF', '#AAEEFF', '#00AAFF'], // Set fill color to white
         align: 'center', // Center align the text
         strokeThickness: 8, // Set stroke thickness to 20
         lineJoin: 'round' // Set the lineJoin to round instead of 'miter'
@@ -340,7 +340,14 @@ TowerUIMenu.prototype.calculateCost = function(){
 }
 
 TowerUIMenu.prototype.openStore = function(){
-	if(!this.towerMenuContainer.visible)
+	if(!this.towerMenuContainer.visible){
 		this.changeToBaseStats(this.towerTypesArray[0]);
+		this.towerMenuContainer.x = CANVAS_WIDTH / 2;
+		this.towerMenuContainer.y = CANVAS_HEIGHT / 2;
+	}
 	this.towerMenuContainer.visible = true;
+}
+
+TowerUIMenu.prototype.closeStore = function(){
+	this.towerMenuContainer.visible = false;
 }

@@ -26,9 +26,8 @@
     // The stage is essentially a display list of all game objects
     // for Pixi to render; it's used in resize(), so it must exist
     stage = new PIXI.Container();
-    stageIndices = [0, 100, 200, 300, 400, 500, 600, 700, 800, 900];    // TODO: Add items to specific indices
      
-    // Size the renderer to fill the screen
+    // Resize the renderer to fill the screen
     resize();
      
     // Actually place the renderer onto the page for display

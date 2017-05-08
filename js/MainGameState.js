@@ -6,6 +6,11 @@ function MainGameState(){
 	this.buttonSelected = null;
 	this.towerToBeAdded = null;
 
+	// Variable about current round
+	this.roundInSession = false;
+	this.roundNumber = 1;
+	this.roundReward = 0;
+
 	// Variables specific to this GameState
 	this.towers =[];
 	this.enemies =[];
@@ -15,16 +20,22 @@ function MainGameState(){
 
 	this.path1X = [7, 7, 8, 8, 6, 6, 12, 12, 6, 6, 9,  9,  8,  8];
 	this.path1Y = [0, 2, 2, 3, 3, 7,  7,  3, 3, 7, 7, 13, 13, 14];
+	this.path2X = [7, 7, 5, 5, 4, 4, 3, 3, 2,  2,  1,  1,  0];
+	this.path2Y = [0, 3, 3, 5, 5, 8, 8, 9, 9, 10, 10, 11, 11];
+	this.path3X = [7, 7, 12, 12, 11, 11, 10, 10,  9,  9];
+	this.path3Y = [0, 3,  3, 11, 11, 12, 12, 13, 13, 14];
 	this.path1 = new EnemyPath(this, this.map, this.path1X, this.path1Y);
+	this.path2 = new EnemyPath(this, this.map, this.path2X, this.path2Y);
+	this.path3 = new EnemyPath(this, this.map, this.path3X, this.path3Y);
 
-	this.iceAmount = 600;	// 160; 400; 700;
+	this.iceAmount = 160;
 	this.sideUIMenu = new SideMenu(this, CANVAS_WIDTH - 200, CANVAS_HEIGHT / 2 + 4, 350, CANVAS_HEIGHT - 120);
+	this.sideUIMenu.startRoundText.deactivate();
 
-	for(let i = 2000; i < 10000; i += 200){	// (3000, 300), (10000, 200), (50000, 100)
-		this.enemies.push(new CO2Enemy(this, 10, 10, 10, 100, i, stage, this.path1));
-	}
+	this.towerUIMenu = new TowerUIMenu(this, 350, 600);
+	this.towerUIMenu.closeStore();
 
-	this.towerUIMenu = new TowerUIMenu(this, 400, 400, 350, 600);
+	this.loadRound();
 }
 
 // Set MainGameState as the constructor 
@@ -36,8 +47,19 @@ MainGameState.prototype.tick = function(delta){
 		this.towers[i].tick(delta);
 	for(let i = 0; i < this.projectiles.length; i++)
 		this.projectiles[i].tick(delta);
-	for(let i = 0; i < this.enemies.length; i++)
-		this.enemies[i].tick(delta);
+
+	// Determine enemies movement
+	if(this.roundInSession){
+		this.enemies.sort(this.sortEnemies);
+		if(this.enemies.length > 0){
+			for(let i = 0; i < this.enemies.length; i++)
+				this.enemies[i].tick(delta);
+		}
+		else{
+			this.roundInSession = false;
+			this.endRound();
+		}
+	}
 
 	this.sideUIMenu.tick(delta);
 	if(this.towerUIMenu.towerMenuContainer.visible)
@@ -155,6 +177,74 @@ MainGameState.prototype.deactivateTowerSelection = function(){
 		this.towers[i].interactive = false;
 }
 
+MainGameState.prototype.startRound = function(){
+	this.roundInSession = true;
+	this.sideUIMenu.startRoundText.deactivate();
+}
+
+MainGameState.prototype.loadRound = function(){
+	// Get info about next round
+	let selfRef = this;
+	$.getJSON("rounds/Round_" + this.roundNumber + ".json", function(data){
+		selfRef.parseRoundJson(data);
+		selfRef.sideUIMenu.startRoundText.activate();
+	});
+}
+
+MainGameState.prototype.parseRoundJson = function(enemyObj){
+	for(let i = 0; i < enemyObj.enemies.length; i++){
+		let enemy = enemyObj.enemies[i];
+
+		for(let j = enemy.delayRender; j < (enemy.delayRender + enemy.howMany * enemy.delaySeparate); j += enemy.delaySeparate){	// (3000, 300), (10000, 200), (50000, 100)
+			let pathNum = enemy.pathes[Math.floor(Math.random() * enemy.pathes.length)];
+			let path;
+
+			switch(pathNum){
+				case 1:
+					path = this.path1;
+					break;
+				case 2:
+					path = this.path2;
+					break;
+				case 3:
+					path = this.path3;
+					break;
+			};
+
+			switch(enemy.type){
+				case "CO2Enemy":
+					this.addEnemy(new CO2Enemy(this, 
+						  		  enemy.health, 
+						  		  enemy.reward, 
+						  		  enemy.damage, 
+						  		  enemy.speed, 
+						  		  j, 
+						  		  stage, 
+						  		  path));
+				default:
+					console.log("ERROR: Round " + this.roundNumber + ": Enemy Index " + i);
+			};
+		}
+	}
+
+	this.roundReward = enemyObj.roundReward;
+}
+
+MainGameState.prototype.endRound = function(){
+	this.addIce(this.roundReward);
+	this.roundNumber++;
+	this.sideUIMenu.roundText.nextRound();
+	this.loadRound();
+}
+
 MainGameState.prototype.bringUpTowerMenu = function(){
 	this.towerUIMenu.openStore();
+}
+
+MainGameState.prototype.sortEnemies = function(a, b){
+	if(a.distanceDelta > b.distanceDelta)
+		return -1;
+	if(a.distanceDelta < b.distanceDelta)
+		return 1;
+	return 0;
 }
