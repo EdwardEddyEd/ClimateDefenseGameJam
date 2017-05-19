@@ -60,7 +60,7 @@ function SideMenu(state, x, y, width, height){
     this.openStoreText.y = height / 2 - 125;
     this.openStoreText.buttonMode = true;
     this.openStoreText.interactive = true;
-    this.openStoreText.on('pointerup', function(){this.gameState.bringUpTowerMenu(); this.style.fill = '#ffffff'; this.style.stroke = '#000000';});
+    this.openStoreText.on('pointerup', function(){this.gameState.bringUpTowerMenu("towerStore"); this.style.fill = '#ffffff'; this.style.stroke = '#000000';});
     this.openStoreText.on('pointerover', function(){this.style.fill = '#FFFF00'; this.style.stroke = '#000000';});
     this.openStoreText.on('pointerout', function(){this.style.fill = '#FFFFFF'; this.style.stroke = '#000000';});
     this.openStoreText.on('pointerdown', function(){this.style.fill = '#000000'; this.style.stroke = '#FFFF00';});

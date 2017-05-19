@@ -24,16 +24,23 @@ function MainGameState(){
 	this.path2Y = [0, 3, 3, 5, 5, 8, 8, 9, 9, 10, 10, 11, 11];
 	this.path3X = [7, 7, 12, 12, 11, 11, 10, 10,  9,  9];
 	this.path3Y = [0, 3,  3, 11, 11, 12, 12, 13, 13, 14];
-	this.path1 = new EnemyPath(this, this.map, this.path1X, this.path1Y);
-	this.path2 = new EnemyPath(this, this.map, this.path2X, this.path2Y);
-	this.path3 = new EnemyPath(this, this.map, this.path3X, this.path3Y);
+	this.path1 = new EnemyPath(this, this.map, this.path1X, this.path1Y, 1);
+	this.path2 = new EnemyPath(this, this.map, this.path2X, this.path2Y, 2);
+	this.path3 = new EnemyPath(this, this.map, this.path3X, this.path3Y, 3);
 
-	this.iceAmount = 160;
+	this.iceAmount = 1000;
 	this.sideUIMenu = new SideMenu(this, CANVAS_WIDTH - 200, CANVAS_HEIGHT / 2 + 4, 350, CANVAS_HEIGHT - 120);
 	this.sideUIMenu.startRoundText.deactivate();
 
-	this.towerUIMenu = new TowerUIMenu(this, 350, 600);
+	for(let i = 0; i < 70; i++)
+		this.sideUIMenu.inventory.addTowerToInventory(new WindTower(this, 5, 5, 600));
+
+	this.towerUIMenu = new TowerUIMenu(this, 350, 700);
 	this.towerUIMenu.closeStore();
+
+	// TODO: Implement this 
+	this.towerInfoMenu = new TowerInfoMenu(this, 575, 500);
+	this.towerInfoMenu.closeStore();
 
 	this.loadRound();
 }
@@ -64,6 +71,9 @@ MainGameState.prototype.tick = function(delta){
 	this.sideUIMenu.tick(delta);
 	if(this.towerUIMenu.towerMenuContainer.visible)
 		this.towerUIMenu.tick(delta);
+
+	if(this.towerInfoMenu.visible)
+		this.towerInfoMenu.tick(delta);
 }
 
 MainGameState.prototype.selectionModeOn = function(tower, button){
@@ -187,6 +197,8 @@ MainGameState.prototype.startRound = function(){
 	this.sideUIMenu.startRoundText.deactivate();
 }
 
+// FIXME: ROUND 4 WON"T LOAD
+
 MainGameState.prototype.loadRound = function(){
 	// Get info about next round
 	let selfRef = this;
@@ -194,6 +206,7 @@ MainGameState.prototype.loadRound = function(){
 		selfRef.parseRoundJson(data);
 		selfRef.sideUIMenu.startRoundText.activate();
 	});
+	console.log("HELLO");
 }
 
 MainGameState.prototype.parseRoundJson = function(enemyObj){
@@ -243,14 +256,28 @@ MainGameState.prototype.endRound = function(){
 	this.loadRound();
 }
 
-MainGameState.prototype.bringUpTowerMenu = function(){
-	this.towerUIMenu.openStore();
+// TODO: Modify this to show only one menu at a time
+MainGameState.prototype.bringUpTowerMenu = function(menuType, tower = null){
+	switch(menuType){
+		case "towerStore":
+			this.towerInfoMenu.closeStore();
+			this.towerUIMenu.openStore();
+			break;
+		case "towerInfo":
+			this.towerUIMenu.closeStore();
+			this.towerInfoMenu.openStore(tower);
+			break;
+		case "towerUpgrade":
+			break;
+		case "towerSell":
+			break;
+	}
 }
 
 MainGameState.prototype.sortEnemies = function(a, b){
-	if(a.distanceDelta > b.distanceDelta)
+	if(a.distanceTraveled > b.distanceTraveled)
 		return -1;
-	if(a.distanceDelta < b.distanceDelta)
+	if(a.distanceTraveled < b.distanceTraveled)
 		return 1;
 	return 0;
 }

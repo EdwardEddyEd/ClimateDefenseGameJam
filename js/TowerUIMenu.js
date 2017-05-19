@@ -18,8 +18,8 @@ function TowerUIMenu(state, width, height){
 	this.towerMenuContainer.addChild(this.containerGraphic);
 
 	// PIXI Title Text of the Menu
-    this.titleText = new PIXI.Text("Tower Menu", {
-        font: "bold 40px Arial", // Set style, size and font
+    this.titleText = new PIXI.Text("Tower Store", {
+        font: "bold 48px Arial", // Set style, size and font
         fill: ['#00AAFF', '#AAEEFF', '#00AAFF'], // Set fill color to white
         align: 'right', // Center align the text
         strokeThickness: 10, // Set stroke thickness to 20
@@ -49,18 +49,18 @@ function TowerUIMenu(state, width, height){
     this.towerMenuContainer.addChild(this.buyButton);
 
     // Tower Type Buttons
-    this.leftTowerArrow  = new TowerUIButton(state, this, -width/2 + 30, -200,  "left_arrow",  this.leftTowerPressed, 0.5, 0.5);
-    this.rightTowerArrow = new TowerUIButton(state, this,  width/2 - 30, -200, "right_arrow", this.rightTowerPressed, 0.5, 0.5);
+    this.leftTowerArrow  = new TowerUIButton(state, this, -width/2 + 30, TowerUIMenu.y_coordinate_layer[0],  "left_arrow",  this.leftTowerPressed, 0.5, 0.5);
+    this.rightTowerArrow = new TowerUIButton(state, this,  width/2 - 30, TowerUIMenu.y_coordinate_layer[0], "right_arrow", this.rightTowerPressed, 0.5, 0.5);
     this.towerMenuContainer.addChild(this.leftTowerArrow);
     this.towerMenuContainer.addChild(this.rightTowerArrow);
 
     // Upgrade/Downgrade Arrow Buttons
-	this.topLeftArrow     = new TowerUIButton(state, this, -width/2 + 60, -100,  "left_arrow", this.topLeftPressed);
-	this.middleLeftArrow  = new TowerUIButton(state, this, -width/2 + 60,    0,  "left_arrow", this.middleLeftPressed);
-	this.bottomLeftArrow  = new TowerUIButton(state, this, -width/2 + 60,  100,  "left_arrow", this.bottomLeftPressed);
-	this.topRightArrow    = new TowerUIButton(state, this,  width/2 - 60, -100, "right_arrow", this.topRightPressed);
-	this.middleRightArrow = new TowerUIButton(state, this,  width/2 - 60,    0, "right_arrow", this.middleRightPressed);
-	this.bottomRightArrow = new TowerUIButton(state, this,  width/2 - 60,  100, "right_arrow", this.bottomRightPressed);
+	this.topLeftArrow     = new TowerUIButton(state, this, -width/2 + 60, TowerUIMenu.y_coordinate_layer[2],  "left_arrow", this.topLeftPressed);
+	this.middleLeftArrow  = new TowerUIButton(state, this, -width/2 + 60, TowerUIMenu.y_coordinate_layer[4],  "left_arrow", this.middleLeftPressed);
+	this.bottomLeftArrow  = new TowerUIButton(state, this, -width/2 + 60,  TowerUIMenu.y_coordinate_layer[6],  "left_arrow", this.bottomLeftPressed);
+	this.topRightArrow    = new TowerUIButton(state, this,  width/2 - 60, TowerUIMenu.y_coordinate_layer[2], "right_arrow", this.topRightPressed);
+	this.middleRightArrow = new TowerUIButton(state, this,  width/2 - 60, TowerUIMenu.y_coordinate_layer[4], "right_arrow", this.middleRightPressed);
+	this.bottomRightArrow = new TowerUIButton(state, this,  width/2 - 60,  TowerUIMenu.y_coordinate_layer[6], "right_arrow", this.bottomRightPressed);
     this.towerMenuContainer.addChild(this.topLeftArrow);
     this.towerMenuContainer.addChild(this.middleLeftArrow);
     this.towerMenuContainer.addChild(this.bottomLeftArrow);
@@ -73,29 +73,29 @@ function TowerUIMenu(state, width, height){
     this.headSprite.anchor.x = 0.5;
     this.headSprite.anchor.y = 0.5;
     this.headSprite.x = -25;
-    this.headSprite.y = -100;
+    this.headSprite.y = TowerUIMenu.y_coordinate_layer[2];
     this.bodySprite = new PIXI.Sprite(textureManager.getTexture("single_fusion"));
     this.bodySprite.anchor.x = 0.5;
     this.bodySprite.anchor.y = 0.5;
     this.bodySprite.x = -25;
-    this.bodySprite.y = 0;
+    this.bodySprite.y = TowerUIMenu.y_coordinate_layer[4];
     this.feetSprite = new PIXI.Sprite(textureManager.getTexture("grid_power_range_3"));
     this.feetSprite.anchor.x = 0.5;
     this.feetSprite.anchor.y = 0.5;
     this.feetSprite.x = -25;
-    this.feetSprite.y = 100;
+    this.feetSprite.y = TowerUIMenu.y_coordinate_layer[6];
     this.towerMenuContainer.addChild(this.headSprite, this.bodySprite, this.feetSprite);
 
 	// Tower-Store variables
 	this.towerTypesArray = ["windTower", "hydroTower"];
 
-	this.windPowerArray = [2, 3, 4];
-	this.windFireRateArray = [1, 2, 3];
-	this.windRangeArray = [3, 6, 8];
+	this.windPowerArray = WindTower.powerArray;
+	this.windFireRateArray = WindTower.fireRateArray;
+	this.windRangeArray = WindTower.rangeArray;
 
-	this.hydroPowerArray = [5, 7, 9];
-	this.hydroFireRateArray = [1, 2, 3];
-	this.hydroRangeArray = [3, 6, 8];
+	this.hydroPowerArray = HydroTower.powerArray;
+	this.hydroFireRateArray = HydroTower.fireRateArray;
+	this.hydroRangeArray = HydroTower.rangeArray;
 
 	this.currentPowerArray = this.windPowerArray;
 	this.currentFireRateArray = this.windFireRateArray;
@@ -111,30 +111,48 @@ function TowerUIMenu(state, width, height){
 
 	// Tower Upgrade Text
 	let towerTextOption = {
-        font: "bold 24px Arial", // Set style, size and font
+        font: "bold 46px Arial", // Set style, size and font
         fill: '#ffffff', // Set fill color to white
         align: 'center', // Center align the text
         strokeThickness: 5, // Set stroke thickness to 20
         lineJoin: 'round' // Set the lineJoin to round instead of 'miter'
     };
-    this.towerPowerText = new PIXI.Text(this.windPowerArray[0] + "\ndmg", towerTextOption);
-    this.towerPowerText.anchor.x = 0.5;
-    this.towerPowerText.anchor.y = 0.5;
-    this.towerPowerText.x = 55;
-    this.towerPowerText.y = -100;
-    this.towerMenuContainer.addChild(this.towerPowerText);
-    this.towerFireRateText = new PIXI.Text(this.windFireRateArray[0] + "\nper s", towerTextOption);
-    this.towerFireRateText.anchor.x = 0.5;
-    this.towerFireRateText.anchor.y = 0.5;
-    this.towerFireRateText.x = 55;
-    this.towerFireRateText.y = 0;
-    this.towerMenuContainer.addChild(this.towerFireRateText);
-	this.towerRangeText = new PIXI.Text((this.windRangeArray[0] * this.towerRangeMultiplier) + "\npx", towerTextOption);
-    this.towerRangeText.anchor.x = 0.5;
-    this.towerRangeText.anchor.y = 0.5;
-    this.towerRangeText.x = 55;
-    this.towerRangeText.y = 100;
-    this.towerMenuContainer.addChild(this.towerRangeText);
+    this.upgradePowerText = new PIXI.Text(this.windPowerArray[0], towerTextOption);
+    this.upgradePowerText.anchor.x = 0.5;
+    this.upgradePowerText.anchor.y = 0.5;
+    this.upgradePowerText.x = 55;
+    this.upgradePowerText.y = TowerUIMenu.y_coordinate_layer[2];
+    this.towerMenuContainer.addChild(this.upgradePowerText);
+    this.upgradeFireRateText = new PIXI.Text(this.windFireRateArray[0], towerTextOption);
+    this.upgradeFireRateText.anchor.x = 0.5;
+    this.upgradeFireRateText.anchor.y = 0.5;
+    this.upgradeFireRateText.x = 55;
+    this.upgradeFireRateText.y = TowerUIMenu.y_coordinate_layer[4];
+    this.towerMenuContainer.addChild(this.upgradeFireRateText);
+	this.upgradeRangeText = new PIXI.Text((this.windRangeArray[0] * this.towerRangeMultiplier), towerTextOption);
+    this.upgradeRangeText.anchor.x = 0.5;
+    this.upgradeRangeText.anchor.y = 0.5;
+    this.upgradeRangeText.x = 55;
+    this.upgradeRangeText.y = TowerUIMenu.y_coordinate_layer[6];
+    this.towerMenuContainer.addChild(this.upgradeRangeText);
+
+    // Text UI for upgrade description
+    towerTextOption.font = "bold 24px Arial";
+    this.infoPowerText = new PIXI.Text("Attack Power (dmg/bullet)", towerTextOption);
+    this.infoPowerText.anchor.x = 0.5;
+    this.infoPowerText.anchor.y = 0.5;
+    this.infoPowerText.y = TowerUIMenu.y_coordinate_layer[1];
+    this.towerMenuContainer.addChild(this.infoPowerText);
+    this.infoFireRateText = new PIXI.Text("Fire Rate (per sec)", towerTextOption);
+    this.infoFireRateText.anchor.x = 0.5;
+    this.infoFireRateText.anchor.y = 0.5;
+    this.infoFireRateText.y = TowerUIMenu.y_coordinate_layer[3];
+    this.towerMenuContainer.addChild(this.infoFireRateText);
+	this.infoRangeText = new PIXI.Text("Range (in pixels)", towerTextOption);
+    this.infoRangeText.anchor.x = 0.5;
+    this.infoRangeText.anchor.y = 0.5;
+    this.infoRangeText.y = TowerUIMenu.y_coordinate_layer[5];
+    this.towerMenuContainer.addChild(this.infoRangeText);
 
     // Tower Type Text
     this.towerTypeText = new PIXI.Text(this.towerTypesArray[0], {
@@ -145,22 +163,22 @@ function TowerUIMenu(state, width, height){
         lineJoin: 'round' // Set the lineJoin to round instead of 'miter'
     });
     this.towerTypeText.x = 0;
-    this.towerTypeText.y = -200;
+    this.towerTypeText.y = TowerUIMenu.y_coordinate_layer[0];
     this.towerTypeText.anchor.x = 0.5;
     this.towerTypeText.anchor.y = 0.5;
     this.towerMenuContainer.addChild(this.towerTypeText);
 
 	// Price Text
-	this.price = 60;
+	this.price = 0;
     this.priceText = new PIXI.Text("PRICE:\n" + this.price + " ICE", {
         font: "bold 40px Arial", // Set style, size and font
         fill: ['#00AAFF', '#AAEEFF', '#00AAFF'], // Set fill color to white
-        align: 'center', // Center align the text
+        align: 'left', // Center align the text
         strokeThickness: 8, // Set stroke thickness to 20
         lineJoin: 'round' // Set the lineJoin to round instead of 'miter'
     });
     this.priceText.x = -width/2 + 25;
-    this.priceText.y = 240;
+    this.priceText.y = height/2 - 60;
     this.priceText.anchor.y = 0.5;
     this.towerMenuContainer.addChild(this.priceText);
 
@@ -174,6 +192,7 @@ function TowerUIMenu(state, width, height){
 }
 
 TowerUIMenu.constructor = TowerUIMenu;
+TowerUIMenu.y_coordinate_layer = [-250, -190, -120, -40, 30, 110, 180, ];
 
 TowerUIMenu.prototype.createContainerTexture = function(width, height){
 	var graphics = new PIXI.Graphics();
@@ -290,53 +309,61 @@ TowerUIMenu.prototype.changeToBaseStats = function(towerType){
 			break;
 	}
 
-	this.towerPowerText.text = head + "\ndmg";
-	this.towerFireRateText.text = body + "\nper s";
-	this.towerRangeText.text = feet + "\npx";
+	this.upgradePowerText.text = head;
+	this.upgradeFireRateText.text = body;
+	this.upgradeRangeText.text = feet;
 	this.calculateCost();
 }
 
 TowerUIMenu.prototype.topLeftPressed = function(){
 	this.towerMenu.headIndexSelected = ((this.towerMenu.headIndexSelected - 1) + this.towerMenu.currentPowerArray.length) % this.towerMenu.currentPowerArray.length;
-	this.towerMenu.towerPowerText.text = this.towerMenu.currentPowerArray[this.towerMenu.headIndexSelected] + "\ndmg";
+	this.towerMenu.upgradePowerText.text = this.towerMenu.currentPowerArray[this.towerMenu.headIndexSelected];
 	this.towerMenu.calculateCost();
 }
 
 TowerUIMenu.prototype.topRightPressed = function(){
 	this.towerMenu.headIndexSelected = ((this.towerMenu.headIndexSelected + 1) + this.towerMenu.currentPowerArray.length) % this.towerMenu.currentPowerArray.length;
-	this.towerMenu.towerPowerText.text = this.towerMenu.currentPowerArray[this.towerMenu.headIndexSelected] + "\ndmg";
+	this.towerMenu.upgradePowerText.text = this.towerMenu.currentPowerArray[this.towerMenu.headIndexSelected];
 	this.towerMenu.calculateCost();
 }
 
 TowerUIMenu.prototype.middleLeftPressed = function(){
 	this.towerMenu.bodyIndexSelected = ((this.towerMenu.bodyIndexSelected - 1) + this.towerMenu.currentFireRateArray.length) % this.towerMenu.currentFireRateArray.length;
-	this.towerMenu.towerFireRateText.text = this.towerMenu.currentFireRateArray[this.towerMenu.bodyIndexSelected] + "\nper s";
+	this.towerMenu.upgradeFireRateText.text = this.towerMenu.currentFireRateArray[this.towerMenu.bodyIndexSelected];
 	this.towerMenu.calculateCost();
 }
 
 TowerUIMenu.prototype.middleRightPressed = function(){
 	this.towerMenu.bodyIndexSelected = ((this.towerMenu.bodyIndexSelected + 1) + this.towerMenu.currentFireRateArray.length) % this.towerMenu.currentFireRateArray.length;
-	this.towerMenu.towerFireRateText.text = this.towerMenu.currentFireRateArray[this.towerMenu.bodyIndexSelected] + "\nper s";
+	this.towerMenu.upgradeFireRateText.text = this.towerMenu.currentFireRateArray[this.towerMenu.bodyIndexSelected];
 	this.towerMenu.calculateCost();
 }
 
 TowerUIMenu.prototype.bottomLeftPressed = function(){
 	this.towerMenu.feetIndexSelected = ((this.towerMenu.feetIndexSelected - 1) + this.towerMenu.currentRangeArray.length) % this.towerMenu.currentRangeArray.length;
-	this.towerMenu.towerRangeText.text = (this.towerMenu.currentRangeArray[this.towerMenu.feetIndexSelected] * this.towerMenu.towerRangeMultiplier) + "\npx";
+	this.towerMenu.upgradeRangeText.text = (this.towerMenu.currentRangeArray[this.towerMenu.feetIndexSelected] * this.towerMenu.towerRangeMultiplier);
 	this.towerMenu.calculateCost();
 }
 
 TowerUIMenu.prototype.bottomRightPressed = function(){
 	this.towerMenu.feetIndexSelected = ((this.towerMenu.feetIndexSelected + 1) + this.towerMenu.currentRangeArray.length) % this.towerMenu.currentRangeArray.length;
-	this.towerMenu.towerRangeText.text = (this.towerMenu.currentRangeArray[this.towerMenu.feetIndexSelected] * this.towerMenu.towerRangeMultiplier) + "\npx";
+	this.towerMenu.upgradeRangeText.text = (this.towerMenu.currentRangeArray[this.towerMenu.feetIndexSelected] * this.towerMenu.towerRangeMultiplier);
 	this.towerMenu.calculateCost();
 }
 
 TowerUIMenu.prototype.calculateCost = function(){
-	let cost = (this.currentPowerArray[this.headIndexSelected] + this.currentFireRateArray[this.bodyIndexSelected] + this.currentRangeArray[this.feetIndexSelected]) * 10;
-	this.price = cost;
+	let power = this.currentPowerArray[this.headIndexSelected];
+	let rate = this.currentFireRateArray[this.bodyIndexSelected];
+	let range = this.currentRangeArray[this.feetIndexSelected];
+	switch(this.towerTypeSelected){
+		case 0:
+			this.price = WindTower.calculatePrice(power, rate, range);
+			break;
+		case 1:
+			this.price = HydroTower.calculatePrice(power, rate, range);
+			break;
+	}
 	this.priceText.text = "PRICE:\n" + this.price + " ICE";
-
 }
 
 TowerUIMenu.prototype.openStore = function(){

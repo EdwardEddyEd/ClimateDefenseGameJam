@@ -30,7 +30,7 @@ function MapSquare(state, x, y, width, height, locX, locY){
         strokeThickness: 10, // Set stroke thickness to 20
         lineJoin: 'round' // Set the lineJoin to round instead of 'miter'
     });
-    this.text.visible = false;
+    this.text.visible = true;
     this.addChild(this.text);
 }
 
@@ -48,7 +48,7 @@ MapSquare.prototype.createMapSquareSprite = function(width, height){
 MapSquare.prototype.createInteraction = function(){
 	function onButtonDown(){
 		this.alpha = 1.0;
-		this.text.visible = true;
+		// this.text.visible = true;
 	}
 
 	function onButtonUp(){
@@ -58,22 +58,22 @@ MapSquare.prototype.createInteraction = function(){
 			this.gameState.selectionModeComplete(this);
 
 		this.alpha = 0.0;
-		this.text.visible = false;
+		// this.text.visible = false;
 	}
 
 	function onButtonUpOutside(){
 		this.alpha = 0.0;
-		this.text.visible = false;
+		// this.text.visible = false;
 	}
 
 	function onButtonOver(){
 		this.alpha = 0.5;
-		this.text.visible = true;
+		// this.text.visible = true;
 	}
 
 	function onButtonOut(){
 		this.alpha = 0.0;
-		this.text.visible = false;
+		// this.text.visible = false;
 	}
 
     this

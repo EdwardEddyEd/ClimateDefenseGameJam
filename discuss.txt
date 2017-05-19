@@ -12,3 +12,6 @@ Implementation List:
 		Buffs?  (good policies)
 		Give visual feedback on it
 
+TODO:
+	Allow player to see range of tower before placing it down
+	Allow player to select a new tower or cancel tower selection from inventory.

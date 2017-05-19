@@ -1,0 +1,17 @@
+{
+	"enemies": [
+		{
+			"type": "CO2Enemy",
+			"health": 30,
+			"reward": 10,
+			"damage": 40,
+			"speed": 100,
+			"pathes": [3],
+
+			"howMany": 15,
+			"delayRender": 1000,
+			"delaySeparate": 1000
+		}
+	],
+	"roundReward": 200
+}

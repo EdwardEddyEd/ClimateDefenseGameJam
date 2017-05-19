@@ -1,7 +1,9 @@
-function EnemyPath(state, map, sqLocX, sqLocY){
+function EnemyPath(state, map, sqLocX, sqLocY, pathNumber){
 	this.state = state;
 	this.pathSquares = [];
 	this.pathMarkers = [];
+
+	this.pathNumber = pathNumber;
 
 	this.totalDistance = 0;
 
@@ -28,12 +30,12 @@ EnemyPath.prototype.distanceBetween = function(start, end) {
 }
 
 EnemyPath.prototype.calcLocation = function(distanceDelta, speed, enemy){
-	let distanceTraveled = (distanceDelta / 1000.0) * speed;
+	enemy.distanceTraveled = (distanceDelta / 1000.0) * speed;
 	for(let i = 0; i < this.pathMarkers.length; i++){
-		if(distanceTraveled >= this.pathMarkers[i])
+		if(enemy.distanceTraveled >= this.pathMarkers[i])
 			continue;
 		else{
-			let distanceTraveledBetween = distanceTraveled - this.pathMarkers[i - 1];
+			let distanceTraveledBetween = enemy.distanceTraveled - this.pathMarkers[i - 1];
 			let distanceBetweenPoints   = this.pathMarkers[i] - this.pathMarkers[i - 1];
 			this.lerp(distanceTraveledBetween / distanceBetweenPoints,
 					  this.pathSquares[i - 1], 
@@ -50,4 +52,8 @@ EnemyPath.prototype.lerp = function(ratio, start, end, enemy){
 	let x = end.x * ratio + (1 - ratio) * start.x;
 	let y = end.y * ratio + (1 - ratio) * start.y;
 	enemy.setLocation(x, y);
+}
+
+EnemyPath.prototype.getPathNumber = function(){
+	return this.pathNumber;
 }

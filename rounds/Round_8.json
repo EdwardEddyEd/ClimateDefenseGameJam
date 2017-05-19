@@ -1,0 +1,53 @@
+{
+	"enemies": [
+		{
+			"type": "CO2Enemy",
+			"health": 200,
+			"reward": 100,
+			"damage": 400,
+			"speed": 200,
+			"pathes": [1, 2, 3],
+
+			"howMany": 100,
+			"delayRender": 1000,
+			"delaySeparate": 500
+		},
+		{
+			"type": "CO2Enemy",
+			"health": 300,
+			"reward": 150,
+			"damage": 600,
+			"speed": 150,
+			"pathes": [1, 2, 3],
+
+			"howMany": 70,
+			"delayRender": 20000,
+			"delaySeparate": 1000
+		},		
+		{
+			"type": "CO2Enemy",
+			"health": 1500,
+			"reward": 500,
+			"damage": 2000,
+			"speed": 50,
+			"pathes": [1],
+
+			"howMany": 10,
+			"delayRender": 30000,
+			"delaySeparate": 1000
+		},
+		{
+			"type": "CO2Enemy",
+			"health": 100,
+			"reward": 300,
+			"damage": 250,
+			"speed": 350,
+			"pathes": [1, 2, 3],
+
+			"howMany": 50,
+			"delayRender": 60000,
+			"delaySeparate": 500
+		}
+	],
+	"roundReward": 3000
+}

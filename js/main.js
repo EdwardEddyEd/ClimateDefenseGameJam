@@ -100,7 +100,7 @@
         let textureNames = ["windTower_Idle", "windTower_Active1", "windTower_Active2", "hydroTower_Idle", "hydroTower_Active1", "hydroTower_Active2",
                             "hydroTower_Proj_Vert", "hydroTower_Proj_Horiz", "hydroTower_Proj_Diag1", "hydroTower_Proj_Diag2", "hydroTower_Proj_Break1", "hydroTower_Proj_Break2",
                             "enemyAnthrax_Move1", "enemyAnthrax_Move2", "enemyAnthrax_Death1", "enemyAnthrax_Death2", "enemyAnthrax_Death3", "enemyCO2_Death1",
-                            "enemyCO2_Move1", "enemyCO2_Move2", "enemyCO2_Death2", "enemyCO2_Death3", "windTower_Proj_90", "windTower_Proj_0",
+                            "enemyCO2_Move1", "enemyCO2_Move2", "enemyCO2_Death2", "enemyCO2_Death3", "windTower_Proj_90", "windTower_Proj_Horiz",
                             "windTower_Proj_45", "windTower_Proj_315", "windTower_Proj_270", "windTower_Proj_225", "windTower_Proj_180", "windTower_Proj_135",
                             "windTower_Proj_Break1", "windTower_Proj_Break2"];
 
